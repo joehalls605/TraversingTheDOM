@@ -1,33 +1,39 @@
-const listItems = document.querySelectorAll();
+// Select all list items (adjust selector as needed)
+const listItems = document.querySelectorAll("li");
 
-document.getElementById("print-info").addEventListener("click", ()=>{
-    listItems.forEach((item)=>{
+document.getElementById("print-info").addEventListener("click", () => {
+    listItems.forEach((item) => {
         console.log("------ " + item.textContent + " ------");
 
         // Parent node
-        console.log("Parent node" + item.parentNode.tagName);
+        if (item.parentNode) {
+            console.log("Parent node: " + item.parentNode.tagName);
+        } else {
+            console.log("No parent node");
+        }
 
         // Child nodes
-        item.childNodes.forEach((child) =>{
-            if(child.nodeType === 1){ /* used in the DOM to check if a particular node is an element node.*/
+        item.childNodes.forEach((child) => {
+            if (child.nodeType === 1) {
+                // Only log element nodes
                 console.log("Child Node: " + child.textContent);
             }
         });
 
         // Next sibling
-
-        if(item.nextSibling){
-            console.log("Next Sibling: " + item.nextSibling.textContent.trim());
-        }
-        else {
+        if (item.nextSibling) {
+            const nextSibling = item.nextSibling.nodeType === 3 ? item.nextSibling.nextSibling : item.nextSibling;
+            console.log("Next Sibling: " + (nextSibling ? nextSibling.textContent.trim() : "No next sibling"));
+        } else {
             console.log("No next sibling");
         }
 
-        if(item.previousSibling){
-            console.log("Previous Sibling: " + item.previousSibling.textContent.trim());
-        }
-        else {
+        // Previous sibling
+        if (item.previousSibling) {
+            const prevSibling = item.previousSibling.nodeType === 3 ? item.previousSibling.previousSibling : item.previousSibling;
+            console.log("Previous Sibling: " + (prevSibling ? prevSibling.textContent.trim() : "No previous sibling"));
+        } else {
             console.log("No previous sibling");
-          }
-    })
-});;
+        }
+    });
+});
